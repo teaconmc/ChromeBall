@@ -1,27 +1,21 @@
 package org.teacon.chromeball;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.SnowballEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.ServerScoreboard;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.Level;
 import org.teacon.chromeball.net.DingPack;
 import org.teacon.chromeball.net.Networking;
-
-import java.util.Objects;
 
 public class ChromeBallEntity extends SnowballEntity {
     public static final ScoreCriteria CHROME = new ScoreCriteria("chrome");
@@ -55,6 +49,9 @@ public class ChromeBallEntity extends SnowballEntity {
         if (!this.world.isRemote) {
             this.world.setEntityState(this, (byte) 3);
             this.remove();
+            if (Math.random() < ChromeBall.config.getRateValue()) {
+                this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), new ItemStack(Register.CHROME_BALL)));
+            }
         }
 
     }

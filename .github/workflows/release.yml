@@ -17,7 +17,9 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.TEACON_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.TEACON_PASSWORD }}
-        run: ./gradlew publishReleasePublicationToArchiveRepository githubActionOutput
+        run: |
+          chmod 777 ./gradlew
+          ./gradlew publishReleasePublicationToArchiveRepository githubActionOutput
       - name: Generate Changelog
         id: changelog
         shell: bash

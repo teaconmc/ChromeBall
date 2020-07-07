@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+
+[[mods]]
+modId="chromeball"
+version="${file.jarVersion}"
+displayName="Chrome Ball"
+
+# We will come back later.
+credits=""
+
+authors=["teacon","jihuayu"]
+
+description="Best Chrome Ball Mod."
+
+[[dependencies.nickname]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15, 1.15.2]"
+    ordering="NONE"
+    side="BOTH"

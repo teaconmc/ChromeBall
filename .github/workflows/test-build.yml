@@ -1,0 +1,14 @@
+name: test-build
+on:
+  push:
+    paths:
+      - "src/**"
+      - "build.gradle"
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: ./gradlew build --stacktrace

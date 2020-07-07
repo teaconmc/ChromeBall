@@ -23,11 +23,9 @@ public class ChromeBall {
 
     public static Config config;
     public ChromeBall(){
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
             ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
             config = new Config(configBuilder);
             ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, configBuilder.build(), MOD_ID + ".toml");
-        });
     }
 
     @SubscribeEvent

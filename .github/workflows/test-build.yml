@@ -11,4 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
-        run: ./gradlew build --stacktrace
+        run: |
+          chmod 777 ./gradlew
+          ./gradlew build --stacktrace

@@ -7,14 +7,13 @@ public class Config {
 
     private double rateValue = -1;
 
-    public Config(ForgeConfigSpec.Builder builder)
-    {
+    public Config(ForgeConfigSpec.Builder builder) {
         rate = builder
                 .defineInRange("recovery_rate", 0.3D, 0D, 1D);
     }
 
     public double getRateValue() {
-        if (rateValue<0)rateValue=rate.get();
+        if (rateValue < 0) rateValue = rate.get();
         return rateValue;
     }
 }

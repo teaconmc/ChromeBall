@@ -21,7 +21,7 @@ public class ChromeBallItem extends SnowballItem {
         if (!worldIn.isRemote) {
             ChromeBallEntity ballEntity = new ChromeBallEntity(worldIn, playerIn);
             ballEntity.setItem(itemstack);
-            ballEntity.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            ballEntity.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.addEntity(ballEntity);
         }
 

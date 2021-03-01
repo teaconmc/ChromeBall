@@ -30,7 +30,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.console.level', 'info'
             mods {
-                chrome_ball {
+                chromeball {
                     source sourceSets.main
                 }
             }
@@ -40,7 +40,7 @@ minecraft {
             workingDirectory project.file('run_server')
             property 'forge.logging.console.level', 'info'
             mods {
-                chrome_ball {
+                chromeball {
                     source sourceSets.main
                 }
             }
@@ -49,9 +49,9 @@ minecraft {
         data {
             workingDirectory project.file('run')
             property 'forge.logging.console.level', 'info'
-            args '--mod', 'chrome_ball', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'chromeball', '--all', '--output', file('src/generated/resources/')
             mods {
-                chrome_ball {
+                chromeball {
                     source sourceSets.main
                 }
             }

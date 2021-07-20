@@ -5,11 +5,10 @@ import java.time.temporal.ChronoUnit
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -61,7 +60,7 @@ minecraft {
 
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.0'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.1.32'
 }
 
 jar {
@@ -93,7 +92,7 @@ publishing {
             artifact reobfArtifact
             pom {
                 name = 'ChromeBall for Minecraft 1.16'
-                description = 'Minecraft mod that adds a /nick command, allowing changing display name.'
+                description = 'ChromeBall! Just a Chrome Ball.'
                 licenses {
                     license {
                         name = 'BSD-3-Clause'

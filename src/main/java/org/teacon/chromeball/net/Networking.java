@@ -17,8 +17,8 @@ public class Networking {
         INSTANCE = NetworkRegistry.newSimpleChannel(
                 new ResourceLocation(ChromeBall.MOD_ID + ":ding"),
                 () -> "1.0",
-                (s) -> true,
-                (s) -> true);
+                (clientVer) -> true,
+                (serverVer) -> true);
         INSTANCE.registerMessage(
                 nextID(),
                 DingPack.class,

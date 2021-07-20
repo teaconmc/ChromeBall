@@ -19,9 +19,7 @@ public class DingPack {
     }
 
     public void handler(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            run();
-        });
+        ctx.get().enqueueWork(this::run);
         ctx.get().setPacketHandled(true);
     }
 

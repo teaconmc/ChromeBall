@@ -4,53 +4,68 @@ import java.time.temporal.ChronoUnit
 
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '0.3.0'
 group = 'org.teacon'
-archivesBaseName = 'ChromeBall-Forge-1.16'
+archivesBaseName = 'ChromeBall-Forge-1.17'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
-    
+    mappings channel: 'official', version: '1.17.1'
+
     runs {
         client {
             workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
             property 'forge.logging.console.level', 'info'
+
             mods {
-                chromeball {
+                examplemod {
                     source sourceSets.main
                 }
             }
         }
 
         server {
-            workingDirectory project.file('run_server')
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
             property 'forge.logging.console.level', 'info'
+
             mods {
-                chromeball {
+                examplemod {
                     source sourceSets.main
                 }
             }
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run_server')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
             property 'forge.logging.console.level', 'info'
-            args '--mod', 'chromeball', '--all', '--output', file('src/generated/resources/')
+
+            args '--mod', 'chromeball', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
             mods {
-                chromeball {
+                examplemod {
                     source sourceSets.main
                 }
             }
@@ -58,24 +73,30 @@ minecraft {
     }
 }
 
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+
+}
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.32'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.1'
 }
 
 jar {
     manifest {
         attributes([
-            "Specification-Title": "ChromeBall",
-            "Specification-Vendor": "TeaConMC",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor": "TeaConMC",
-            "Implementation-Timestamp": DateTimeFormatter.ISO_INSTANT.format(Instant.now().truncatedTo(ChronoUnit.SECONDS))
+                "Specification-Title": "ChromeBall",
+                "Specification-Vendor": "TeaConMC",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor": "TeaConMC",
+                "Implementation-Timestamp": DateTimeFormatter.ISO_INSTANT.format(Instant.now().truncatedTo(ChronoUnit.SECONDS))
         ])
     }
 }
+
 
 // Maven publish
 def reobfFile = file("$buildDir/reobfJar/output.jar")

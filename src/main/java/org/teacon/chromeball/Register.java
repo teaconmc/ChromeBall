@@ -1,9 +1,9 @@
 package org.teacon.chromeball;
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,8 +12,8 @@ import org.teacon.chromeball.net.Networking;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Register {
-    public static final Item CHROME_BALL = new ChromeBallItem(new Item.Properties().group(ItemGroup.MISC));
-    public static final EntityType<ChromeBallEntity> CHROME_BALL_ENTITY_ENTITY_TYPE = EntityType.Builder.<ChromeBallEntity>create(ChromeBallEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).build("chrome");
+    public static final Item CHROME_BALL = new ChromeBallItem(new Item.Properties().tab(CreativeModeTab.TAB_MISC));
+    public static final EntityType<ChromeBallEntity> CHROME_BALL_ENTITY_ENTITY_TYPE = EntityType.Builder.<ChromeBallEntity>of(ChromeBallEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("chrome");
 
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {

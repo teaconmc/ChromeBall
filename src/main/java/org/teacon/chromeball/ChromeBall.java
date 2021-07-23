@@ -1,22 +1,20 @@
 package org.teacon.chromeball;
 
-import net.minecraft.scoreboard.ScoreCriteria;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.scores.Objective;
+import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-
-import static org.teacon.chromeball.ChromeBallEntity.CHROME;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 
 @Mod(ChromeBall.MOD_ID)
 @Mod.EventBusSubscriber
 public class ChromeBall {
     public static final String MOD_ID = "chromeball";
-    public static ScoreObjective O;
+    public static ObjectiveCriteria O;
 
     public static Config config;
 
@@ -28,12 +26,11 @@ public class ChromeBall {
 
     @SubscribeEvent
     public static void onFMLServerStartingEvent(FMLServerStartingEvent event) {
-        O = event.getServer().getScoreboard().getObjective("chrome");
-        if (O == null)
-            O = event.getServer().getScoreboard().addObjective("chrome", CHROME, new TranslationTextComponent("chromeball.tab.1"), ScoreCriteria.RenderType.INTEGER);
-        event.getServer().getScoreboard().addObjective(O);
-
-        event.getServer().getScoreboard().setObjectiveInDisplaySlot(0, O);
+//        O = event.getServer().getScoreboard().getObjective("chrome");
+//        if (O == null)
+//            O = event.getServer().getScoreboard().addObjective("chrome", CHROME, new TranslatableComponent("chromeball.tab.1"), ObjectiveCriteria.RenderType.INTEGER);
+//
+//        event.getServer().getScoreboard().setObjectiveInDisplaySlot(0, O);
     }
 
 

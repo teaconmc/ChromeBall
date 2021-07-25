@@ -15,7 +15,7 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void entityRender(FMLClientSetupEvent event) {
-        Minecraft.getInstance().getRenderManager().register(CHROME_BALL_ENTITY_ENTITY_TYPE, new SpriteRenderer<>(Minecraft.getInstance().getRenderManager(),
+        Minecraft.getInstance().getEntityRenderDispatcher().register(CHROME_BALL_ENTITY_ENTITY_TYPE, new SpriteRenderer<>(Minecraft.getInstance().getEntityRenderDispatcher(),
                 Minecraft.getInstance().getItemRenderer()));
     }
 }

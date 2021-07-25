@@ -22,7 +22,7 @@ archivesBaseName = 'ChromeBall-Forge-1.16'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'official', version: '1.16.5'
     
     runs {
         client {
@@ -103,11 +103,11 @@ publishing {
     }
     repositories {
         maven {
-            name = "archive"
-            url = "https://maven.hub.tritusk.info/releases"
-            credentials {
-                username = System.env.MAVEN_USERNAME
-                password = System.env.MAVEN_PASSWORD
+            name = "teacon"
+            url = "s3://maven/"
+            credentials(AwsCredentials) {
+                accessKey = System.env.ARCHIVE_ACCESS_KEY
+                secretKey = System.env.ARCHIVE_SECRET_KEY
             }
         }
     }
@@ -115,7 +115,7 @@ publishing {
 
 tasks.withType(PublishToMavenRepository) {
     onlyIf {
-        System.env.MAVEN_USERNAME && System.env.MAVEN_PASSWORD
+        System.env.ARCHIVE_ACCESS_KEY && System.env.ARCHIVE_SECRET_KEY
     }
 }
 
@@ -127,7 +127,7 @@ task("githubActionOutput") {
         System.env.GITHUB_ACTIONS
     }
     doLast {
-        println "::set-output name=artifact_path::$buildDir/reobfJar/output.jar"
-        println "::set-output name=artifact_name::$archivesBaseName-${version}.jar"
+        println "::set-output name=artifact_path::${jar.archiveFile.get().asFile.absolutePath}"
+        println "::set-output name=artifact_name::${jar.archiveFileName.get()}"
     }
 }

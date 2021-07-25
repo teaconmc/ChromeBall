@@ -27,6 +27,6 @@ public class DingPack {
     public void run() {
         SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft", "entity.experience_orb.pickup"));
         if (sound != null)
-            Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(sound, 1.0f));
+            Minecraft.getInstance().getSoundManager().play(SimpleSound.forUI(sound, 1.0f));
     }
 }

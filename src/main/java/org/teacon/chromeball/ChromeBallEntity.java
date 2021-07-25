@@ -32,12 +32,12 @@ public class ChromeBallEntity extends SnowballEntity {
         super(worldIn, x, y, z);
     }
 
-    protected void onImpact(RayTraceResult result) {
+    protected void onHit(RayTraceResult result) {
         if (result.getType() == RayTraceResult.Type.ENTITY) {
             Entity entity = ((EntityRayTraceResult) result).getEntity();
             if (entity instanceof ServerPlayerEntity && entity.getServer() != null) {
                 ServerScoreboard board = entity.getServer().getScoreboard();
-                board.forAllObjectives(CHROME, entity.getScoreboardName(), Score::incrementScore);
+                board.forAllObjectives(CHROME, entity.getScoreboardName(), Score::increment);
                 Networking.INSTANCE.send(
                         PacketDistributor.PLAYER.with(
                                 () -> (ServerPlayerEntity) entity
@@ -46,11 +46,11 @@ public class ChromeBallEntity extends SnowballEntity {
             }
         }
 
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte) 3);
+        if (!this.level.isClientSide) {
+            this.level.broadcastEntityEvent(this, (byte) 3);
             this.remove();
             if (Math.random() < ChromeBall.config.getRateValue()) {
-                this.world.addEntity(new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), new ItemStack(Register.CHROME_BALL)));
+                this.level.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), new ItemStack(Register.CHROME_BALL)));
             }
         }
 

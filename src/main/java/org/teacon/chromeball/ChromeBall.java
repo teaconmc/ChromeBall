@@ -31,9 +31,9 @@ public class ChromeBall {
         O = event.getServer().getScoreboard().getObjective("chrome");
         if (O == null)
             O = event.getServer().getScoreboard().addObjective("chrome", CHROME, new TranslationTextComponent("chromeball.tab.1"), ScoreCriteria.RenderType.INTEGER);
-        event.getServer().getScoreboard().addObjective(O);
+        event.getServer().getScoreboard().startTrackingObjective(O);
 
-        event.getServer().getScoreboard().setObjectiveInDisplaySlot(0, O);
+        event.getServer().getScoreboard().setDisplayObjective(0, O);
     }
 
 

@@ -20,7 +20,7 @@ version = '0.3.0'
 group = 'org.teacon'
 archivesBaseName = 'ChromeBall-Forge-1.17'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 16
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -80,7 +80,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.1'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.7'
 }
 
 jar {
@@ -124,11 +124,11 @@ publishing {
     }
     repositories {
         maven {
-            name = "archive"
-            url = "https://maven.hub.tritusk.info/releases"
-            credentials {
-                username = System.env.MAVEN_USERNAME
-                password = System.env.MAVEN_PASSWORD
+            name = "teacon"
+            url = "s3://maven/"
+            credentials(AwsCredentials) {
+                accessKey = System.env.ARCHIVE_ACCESS_KEY
+                secretKey = System.env.ARCHIVE_SECRET_KEY
             }
         }
     }
@@ -136,7 +136,7 @@ publishing {
 
 tasks.withType(PublishToMavenRepository) {
     onlyIf {
-        System.env.MAVEN_USERNAME && System.env.MAVEN_PASSWORD
+        System.env.ARCHIVE_ACCESS_KEY && System.env.ARCHIVE_SECRET_KEY
     }
 }
 
@@ -148,7 +148,7 @@ task("githubActionOutput") {
         System.env.GITHUB_ACTIONS
     }
     doLast {
-        println "::set-output name=artifact_path::$buildDir/reobfJar/output.jar"
-        println "::set-output name=artifact_name::$archivesBaseName-${version}.jar"
+        println "::set-output name=artifact_path::${jar.archiveFile.get().asFile.absolutePath}"
+        println "::set-output name=artifact_name::${jar.archiveFileName.get()}"
     }
 }

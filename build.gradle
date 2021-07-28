@@ -108,11 +108,11 @@ publishing {
     publications {
         release(MavenPublication) {
             groupId = "org.teacon"
-            artifactId = "ChromeBall-Forge-1.16"
+            artifactId = "ChromeBall-Forge-1.17"
 
             artifact reobfArtifact
             pom {
-                name = 'ChromeBall for Minecraft 1.16'
+                name = 'ChromeBall for Minecraft 1.17'
                 description = 'ChromeBall! Just a Chrome Ball.'
                 licenses {
                     license {

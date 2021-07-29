@@ -10,23 +10,21 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.teacon.chromeball.net.Networking;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = "chromeball")
 public class Register {
     public static final Item CHROME_BALL = new ChromeBallItem(new Item.Properties().tab(ItemGroup.TAB_MISC));
     public static final EntityType<ChromeBallEntity> CHROME_BALL_ENTITY_ENTITY_TYPE = EntityType.Builder.<ChromeBallEntity>of(ChromeBallEntity::new, EntityClassification.MISC).sized(0.25F, 0.25F).build("chrome");
 
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
-
-        event.getRegistry().registerAll(
+        event.getRegistry().register(
                 CHROME_BALL.setRegistryName("chrome")
         );
     }
 
     @SubscribeEvent
     public static void registerEntity(RegistryEvent.Register<EntityType<?>> event) {
-
-        event.getRegistry().registerAll(
+        event.getRegistry().register(
                 CHROME_BALL_ENTITY_ENTITY_TYPE.setRegistryName("chrome")
         );
     }

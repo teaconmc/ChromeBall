@@ -1,5 +1,5 @@
 {
   "item.chromeball.chrome": "Chrome ball",
-  "chromeball.tab.1": "Chrome score"
-
+  "entity.chromeball.chrome": "Chrome ball",
+  "stat.chromeball.hits_by": "Hits by Chrome ball"
 }

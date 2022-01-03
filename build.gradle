@@ -5,26 +5,30 @@ import java.time.temporal.ChronoUnit
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '0.3.0'
+version = '0.4.0'
 group = 'org.teacon'
-archivesBaseName = 'ChromeBall-Forge-1.17'
+archivesBaseName = 'ChromeBall-Forge-1.18'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.17.1'
+    // mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
 
     runs {
         client {
@@ -42,7 +46,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run_server')
 
             property 'forge.logging.markers', 'REGISTRIES'
 
@@ -56,7 +60,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run_server')
+            workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
 
@@ -80,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.7'
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.9'
 }
 
 jar {
@@ -97,22 +101,21 @@ jar {
     }
 }
 
-
-// Maven publish
 def reobfFile = file("$buildDir/reobfJar/output.jar")
 def reobfArtifact = artifacts.add('default', reobfFile) {
     type 'jar'
     builtBy 'reobfJar'
 }
+
 publishing {
     publications {
         release(MavenPublication) {
             groupId = "org.teacon"
-            artifactId = "ChromeBall-Forge-1.17"
+            artifactId = "ChromeBall-Forge-1.18"
 
             artifact reobfArtifact
             pom {
-                name = 'ChromeBall for Minecraft 1.17'
+                name = 'ChromeBall for Minecraft 1.18'
                 description = 'ChromeBall! Just a Chrome Ball.'
                 licenses {
                     license {

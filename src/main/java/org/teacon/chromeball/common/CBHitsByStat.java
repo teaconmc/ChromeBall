@@ -19,7 +19,9 @@ public class CBHitsByStat {
 
     @SubscribeEvent
     public static void registerStat(FMLCommonSetupEvent event) {
-        Registry.register(Registry.CUSTOM_STAT, INSTANCE, INSTANCE);
-        Stats.CUSTOM.get(INSTANCE);
+        event.enqueueWork(() -> {
+            Registry.register(Registry.CUSTOM_STAT, INSTANCE, INSTANCE);
+            Stats.CUSTOM.get(INSTANCE);
+        });
     }
 }

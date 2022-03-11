@@ -27,8 +27,8 @@ archivesBaseName = 'ChromeBall-Forge-1.18'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    // mappings channel: 'official', version: '1.18.1'
-    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
+    // mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'parchment', version: '2022.03.06-1.18.1'
 
     runs {
         client {
@@ -84,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.9'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.12'
 }
 
 jar {
@@ -94,7 +94,7 @@ jar {
                 "Specification-Vendor": "TeaConMC",
                 "Specification-Version": "1",
                 "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
+                "Implementation-Version": "${project.version}",
                 "Implementation-Vendor": "TeaConMC",
                 "Implementation-Timestamp": DateTimeFormatter.ISO_INSTANT.format(Instant.now().truncatedTo(ChronoUnit.SECONDS))
         ])
@@ -103,8 +103,8 @@ jar {
 
 def reobfFile = file("$buildDir/reobfJar/output.jar")
 def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
+    it.type = 'jar'
+    it.builtBy 'reobfJar'
 }
 
 publishing {

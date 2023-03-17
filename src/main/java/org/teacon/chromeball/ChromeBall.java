@@ -26,6 +26,7 @@ public class ChromeBall {
         var eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         CBRegistry.ITEMS.register(eventBus);
         CBRegistry.ENTITIES.register(eventBus);
+        eventBus.addListener(CBRegistry::registerCreativeTabs);
     }
 
     public static Config getConfig() {

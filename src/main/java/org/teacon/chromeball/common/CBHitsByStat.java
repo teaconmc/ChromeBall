@@ -2,6 +2,7 @@ package org.teacon.chromeball.common;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,7 +21,7 @@ public class CBHitsByStat {
     @SubscribeEvent
     public static void registerStat(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            Registry.register(Registry.CUSTOM_STAT, INSTANCE, INSTANCE);
+            Registry.register(BuiltInRegistries.CUSTOM_STAT, INSTANCE, INSTANCE);
             Stats.CUSTOM.get(INSTANCE);
         });
     }

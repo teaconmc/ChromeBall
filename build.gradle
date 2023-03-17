@@ -1,77 +1,48 @@
-import java.time.Instant
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+'
-    }
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-version = '0.4.0'
+version = '0.5.0'
 group = 'org.teacon'
-archivesBaseName = 'ChromeBall-Forge-1.18'
+archivesBaseName = 'ChromeBall-Forge-1.19'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    // mappings channel: 'official', version: '1.18.2'
-    mappings channel: 'parchment', version: '2022.03.06-1.18.1'
+    mappings channel: 'official', version: '1.19.4'
+    // mappings channel: 'parchment', version: '2022.03.06-1.18.1'
 
     runs {
         client {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'info'
-
+            property 'forge.enabledGameTestNamespaces', 'chromeball'
             mods {
-                examplemod {
-                    source sourceSets.main
-                }
+                chromeball { source sourceSets.main }
             }
         }
 
         server {
             workingDirectory project.file('run_server')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'info'
-
+            property 'forge.enabledGameTestNamespaces', 'chromeball'
             mods {
-                examplemod {
-                    source sourceSets.main
-                }
+                chromeball { source sourceSets.main }
             }
         }
 
         data {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'info'
-
             args '--mod', 'chromeball', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
             mods {
-                examplemod {
-                    source sourceSets.main
-                }
+                chromeball { source sourceSets.main }
             }
         }
     }
@@ -79,12 +50,10 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-
-}
+repositories { /* no repository here*/ }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.12'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.9'
 }
 
 jar {
@@ -96,26 +65,21 @@ jar {
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${project.version}",
                 "Implementation-Vendor": "TeaConMC",
-                "Implementation-Timestamp": DateTimeFormatter.ISO_INSTANT.format(Instant.now().truncatedTo(ChronoUnit.SECONDS))
+                "Implementation-Timestamp": "${Instant.now().truncatedTo(java.time.temporal.ChronoUnit.SECONDS)}"
         ])
     }
 }
 
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    it.type = 'jar'
-    it.builtBy 'reobfJar'
-}
+jar.finalizedBy('reobfJar')
 
 publishing {
     publications {
         release(MavenPublication) {
             groupId = "org.teacon"
-            artifactId = "ChromeBall-Forge-1.18"
-
-            artifact reobfArtifact
+            artifactId = "ChromeBall-Forge-1.19"
+            artifact jar
             pom {
-                name = 'ChromeBall for Minecraft 1.18'
+                name = 'ChromeBall for Minecraft 1.19'
                 description = 'ChromeBall! Just a Chrome Ball.'
                 licenses {
                     license {
@@ -138,18 +102,14 @@ publishing {
 }
 
 tasks.withType(PublishToMavenRepository) {
-    onlyIf {
-        System.env.ARCHIVE_ACCESS_KEY && System.env.ARCHIVE_SECRET_KEY
-    }
+    onlyIf { System.env.ARCHIVE_ACCESS_KEY && System.env.ARCHIVE_SECRET_KEY }
 }
 
 /**
  * A simple task to pass down the artifact name and path to other GitHub actions.
  */
 task("githubActionOutput") {
-    onlyIf {
-        System.env.GITHUB_ACTIONS
-    }
+    onlyIf { System.env.GITHUB_ACTIONS }
     doLast {
         println "::set-output name=artifact_path::${jar.archiveFile.get().asFile.absolutePath}"
         println "::set-output name=artifact_name::${jar.archiveFileName.get()}"

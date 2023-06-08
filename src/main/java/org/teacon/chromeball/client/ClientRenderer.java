@@ -2,14 +2,13 @@ package org.teacon.chromeball.client;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.teacon.chromeball.common.CBRegistry;
 
@@ -20,8 +19,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientRenderer {
     @SubscribeEvent
-    public static void registerRenderer(FMLClientSetupEvent event) {
-        EntityRenderers.register(CBRegistry.ENTITY_TYPE.get(), ThrownItemRenderer::new);
+    public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(CBRegistry.ENTITY_TYPE.get(), ThrownItemRenderer::new);
     }
 
     public static void ding() {

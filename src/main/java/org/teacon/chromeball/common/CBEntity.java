@@ -37,7 +37,7 @@ public class CBEntity extends ThrowableItemProjectile {
         if (id == 3) {
             var particle = new ItemParticleOption(ParticleTypes.ITEM, this.getItem());
             for (var i = 0; i < 16; ++i) {
-                this.level.addParticle(particle, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(particle, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
     }
@@ -52,12 +52,12 @@ public class CBEntity extends ThrowableItemProjectile {
             }
         }
 
-        if (!this.level.isClientSide()) {
-            this.level.broadcastEntityEvent(this, (byte) 3);
+        if (!this.level().isClientSide()) {
+            this.level().broadcastEntityEvent(this, (byte) 3);
             this.remove(RemovalReason.DISCARDED);
-            if (this.level.random.nextDouble() < ChromeBall.getConfig().getRateValue()) {
+            if (this.level().random.nextDouble() < ChromeBall.getConfig().getRateValue()) {
                 var item = new ItemStack(CBRegistry.ITEM.get());
-                this.level.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), item));
+                this.level().addFreshEntity(new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), item));
             }
         }
     }

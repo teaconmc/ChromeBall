@@ -6,7 +6,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -24,7 +24,7 @@ public class CBRegistry {
     public static final RegistryObject<EntityType<CBEntity>> ENTITY_TYPE = ENTITIES.register("chrome",
             () -> EntityType.Builder.<CBEntity>of(CBEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).build("chrome"));
 
-    public static void registerCreativeTabs(CreativeModeTabEvent.BuildContents event) {
+    public static void registerCreativeTabs(BuildCreativeModeTabContentsEvent event) {
         if (event.getTab().equals(CreativeModeTabs.SEARCH)) {
             event.accept(CBRegistry.ITEM, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }

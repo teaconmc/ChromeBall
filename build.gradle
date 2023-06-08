@@ -1,18 +1,18 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-version = '0.5.0'
+version = '0.6.0'
 group = 'org.teacon'
-archivesBaseName = 'ChromeBall-Forge-1.19'
+archivesBaseName = 'ChromeBall-Forge-1.20'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: '1.19.4'
+    mappings channel: 'official', version: '1.20'
     // mappings channel: 'parchment', version: '2022.03.06-1.18.1'
 
     runs {
@@ -53,7 +53,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories { /* no repository here*/ }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.4-45.0.9'
+    minecraft 'net.minecraftforge:forge:1.20-46.0.1'
 }
 
 jar {
@@ -76,10 +76,10 @@ publishing {
     publications {
         release(MavenPublication) {
             groupId = "org.teacon"
-            artifactId = "ChromeBall-Forge-1.19"
+            artifactId = "ChromeBall-Forge-1.20"
             artifact jar
             pom {
-                name = 'ChromeBall for Minecraft 1.19'
+                name = 'ChromeBall for Minecraft 1.20'
                 description = 'ChromeBall! Just a Chrome Ball.'
                 licenses {
                     license {

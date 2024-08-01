@@ -52,7 +52,7 @@ jobs:
           fi
           changelog="${changelog//'%'/'%25'}"
           changelog="${changelog//$'\n'/'  %0A'}"
-          echo "value=Change set since ${last_tag:-the beginning}:  %0A%0A$changelog" | tee "$GITHUB_OUTPUT"
+          echo "::set-output name=value::Change set since ${last_tag:-the beginning}:  %0A%0A$changelog" | tee "$GITHUB_OUTPUT"
       - name: GitHub Release
         id: create_release
         uses: actions/create-release@v1.1.1

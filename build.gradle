@@ -9,6 +9,10 @@ plugins {
 // Added by TeaCon
 abstract class TeaConDumpPathToGitHub extends DefaultTask {
     @Input
+    abstract Property<String> getModVersion()
+    @Input
+    abstract Property<String> getMinecraftVersion()
+    @Input
     abstract Property<String> getPublishName()
     @InputFile
     abstract RegularFileProperty getTargetFile()
@@ -25,7 +29,7 @@ abstract class TeaConDumpPathToGitHub extends DefaultTask {
             outputFile << newLine << "artifact_name=${theFile.getName()}"
             outputFile << newLine << "artifact_publish_name=${publishName.get()}"
             outputFile << newLine << "artifact_path=${theFile.absolutePath}"
-            outputFile << newLine << "artifact_git_tag=MC${project.minecraft_version}-${project.mod_version}"
+            outputFile << newLine << "artifact_git_tag=MC${minecraftVersion.get()}-${modVersion.get()}"
         }
     }
 }
@@ -259,10 +263,12 @@ tasks.withType(PublishToMavenRepository).configureEach {
 }
 
 // Added by TeaCon
-tasks.register("githubActionOutput", TeaConDumpPathToGitHub) { task ->
-    task.onlyIf { System.env.GITHUB_ACTIONS }
-    task.getTargetFile().set(jar.archiveFile)
-    task.getPublishName().set("${jar.archiveBaseName.get()}-${version}.jar")
+tasks.register("githubActionOutput", TeaConDumpPathToGitHub) {
+    onlyIf { System.env.GITHUB_ACTIONS }
+    targetFile = jar.archiveFile
+    publishName = "${jar.archiveBaseName.get()}-${version}.jar"
+    modVersion = mod_version
+    minecraftVersion = minecraft_version
 }
 
 tasks.withType(JavaCompile).configureEach {

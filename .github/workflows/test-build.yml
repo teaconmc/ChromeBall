@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Get Short Identifier
-        uses: benjlevesque/short-sha@v1.2
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Build
         id: build

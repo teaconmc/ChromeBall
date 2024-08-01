@@ -12,15 +12,19 @@ jobs:
         with:
           # Fetch all history 
           fetch-depth: 0
+      - name: Setup Java 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       - name: Maven Publish
         id: maven_publish
         env:
+          ARCHIVE_URL: ${{ secrets.TEACON_ARCHIVE_URL }}
           ARCHIVE_ENDPOINT: ${{ secrets.TEACON_ARCHIVE_ENDPOINT }}
           ARCHIVE_ACCESS_KEY: ${{ secrets.TEACON_ARCHIVE_ACCESS_KEY }}
           ARCHIVE_SECRET_KEY: ${{ secrets.TEACON_ARCHIVE_SECRET_KEY }}
-        run: |
-          chmod 777 ./gradlew
-          ./gradlew -Dorg.gradle.s3.endpoint=$ARCHIVE_ENDPOINT publishReleasePublicationToTeaconRepository githubActionOutput
+        run: ./gradlew -Dorg.gradle.s3.endpoint=$ARCHIVE_ENDPOINT publishReleasePublicationToTeaconRepository githubActionOutput
       - name: Generate Changelog
         id: changelog
         shell: bash
@@ -39,7 +43,7 @@ jobs:
         run: |
           current_tag=${CURRENT/refs\/tags\//}
           last_tag=`git describe --tags --abbrev=0 "$current_tag"^ 2>/dev/null || echo`
-          if [ $last_tag ]; then
+          if [ last_tag ]; then
           changelog=`git log --pretty="format:%H: %s" ${last_tag}..$current_tag`
           else
           changelog=`git log --pretty="format:%H: %s"`
@@ -66,6 +70,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.maven_publish.outputs.artifact_path }}
-          asset_name: ${{ steps.maven_publish.outputs.artifact_name }}
+          asset_name: ${{ steps.maven_publish.outputs.artifact_publish_name }}
           # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
           asset_content_type: "application/java-archive"

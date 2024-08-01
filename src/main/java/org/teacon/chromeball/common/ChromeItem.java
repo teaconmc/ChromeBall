@@ -15,9 +15,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class CBItem extends SnowballItem {
+public class ChromeItem extends SnowballItem {
 
-    public CBItem(Properties builder) {
+    public ChromeItem(Properties builder) {
         super(builder);
     }
 
@@ -30,7 +30,7 @@ public class CBItem extends SnowballItem {
                 SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
 
         if (!world.isClientSide()) {
-            var ballEntity = new CBEntity(world, player);
+            var ballEntity = new ChromeEntity(world, player);
             ballEntity.setItem(item);
             ballEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(ballEntity);

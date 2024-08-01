@@ -1,30 +1,37 @@
 package org.teacon.chromeball.network;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import org.teacon.chromeball.ChromeBall;
 import org.teacon.chromeball.client.ClientRenderer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Supplier;
+
+import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public enum DingPack {
+public enum DingPack implements CustomPacketPayload, IPayloadHandler<DingPack> {
     INSTANCE;
 
-    public static DingPack fromBytes(FriendlyByteBuf buf) {
-        return INSTANCE;
+    private static final String VERSION = "2.0";
+    private static final Type<DingPack> TYPE = new Type<>(fromNamespaceAndPath(ChromeBall.MOD_ID, "ding"));
+
+    public static void registerMessage(RegisterPayloadHandlersEvent event) {
+        event.registrar(VERSION).playToClient(TYPE, StreamCodec.unit(INSTANCE), INSTANCE);
     }
 
-    public void toBytes(FriendlyByteBuf buf) {
-        // do nothing here
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public void handler(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientRenderer::ding));
-        ctx.get().setPacketHandled(true);
+    @Override
+    public void handle(DingPack dingPack, IPayloadContext context) {
+        context.enqueueWork(ClientRenderer::ding);
     }
 }

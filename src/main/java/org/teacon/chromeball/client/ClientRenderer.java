@@ -4,30 +4,21 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.teacon.chromeball.common.CBRegistry;
+import net.minecraft.sounds.SoundEvents;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import org.teacon.chromeball.common.ChromeBallRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientRenderer {
-    @SubscribeEvent
     public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(CBRegistry.ENTITY_TYPE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ChromeBallRegistry.ENTITY_TYPE.get(), ThrownItemRenderer::new);
     }
 
     public static void ding() {
-        var registry = ForgeRegistries.SOUND_EVENTS;
-        var sound = registry.getValue(new ResourceLocation("entity.experience_orb.pickup"));
-        if (sound != null) {
-            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, 1.0f));
-        }
+        var sound = SoundEvents.EXPERIENCE_ORB_PICKUP;
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, 1.0f));
     }
 }

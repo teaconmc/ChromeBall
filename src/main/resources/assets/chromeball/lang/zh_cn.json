@@ -1,5 +1,8 @@
 {
   "item.chromeball.chrome": "土球",
   "entity.chromeball.chrome": "土球",
-  "stat.chromeball.hits_by": "被土球击中次数"
+  "entity.chromeball.door_chrome": "门神土球",
+  "stat.chromeball.hits_by": "被土球击中次数",
+  "stat.chromeball.merit": "功德",
+  "chromeball.hint.merit_plus": "功德 +1"
 }

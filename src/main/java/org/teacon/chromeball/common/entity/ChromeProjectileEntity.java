@@ -1,4 +1,4 @@
-package org.teacon.chromeball.common;
+package org.teacon.chromeball.common.entity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -16,26 +16,26 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.teacon.chromeball.ChromeBall;
+import org.teacon.chromeball.common.ChromeBallRegistry;
 import org.teacon.chromeball.network.DingPack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ChromeEntity extends ThrowableItemProjectile {
+public class ChromeProjectileEntity extends ThrowableItemProjectile {
 
-    public ChromeEntity(EntityType<? extends ChromeEntity> type, Level world) {
+    public ChromeProjectileEntity(EntityType<? extends ChromeProjectileEntity> type, Level world) {
         super(type, world);
     }
 
-    public ChromeEntity(Level world, LivingEntity thrower) {
-        super(ChromeBallRegistry.ENTITY_TYPE.get(), thrower, world);
+    public ChromeProjectileEntity(Level world, LivingEntity thrower) {
+        super(ChromeBallRegistry.PROJECTILE_ENTITY_TYPE.get(), thrower, world);
     }
 
     @Override
     public void handleEntityEvent(byte id) {
         if (id == 3) {
-            // noinspection resource
             var world = this.level();
             var particle = new ItemParticleOption(ParticleTypes.ITEM, this.getItem());
             for (var i = 0; i < 16; ++i) {
@@ -60,7 +60,7 @@ public class ChromeEntity extends ThrowableItemProjectile {
             this.remove(RemovalReason.DISCARDED);
             var config = ChromeBall.CONFIG.getLeft();
             if (world.random.nextDouble() < config.rate().getAsDouble()) {
-                var item = new ItemStack(ChromeBallRegistry.ITEM.get());
+                var item = new ItemStack(ChromeBallRegistry.CHROME_BALL_ITEM.get());
                 world.addFreshEntity(new ItemEntity(world, this.getX(), this.getY(), this.getZ(), item));
             }
         }
@@ -68,6 +68,6 @@ public class ChromeEntity extends ThrowableItemProjectile {
 
     @Override
     protected Item getDefaultItem() {
-        return ChromeBallRegistry.ITEM.get();
+        return ChromeBallRegistry.CHROME_BALL_ITEM.get();
     }
 }

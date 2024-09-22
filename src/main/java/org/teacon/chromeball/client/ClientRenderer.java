@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import org.teacon.chromeball.client.entity.renderer.DoorChromeRenderer;
 import org.teacon.chromeball.common.ChromeBallRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -14,7 +15,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ClientRenderer {
     public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ChromeBallRegistry.ENTITY_TYPE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ChromeBallRegistry.PROJECTILE_ENTITY_TYPE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ChromeBallRegistry.DOOR_CHROME_ENTITY_TYPE.get(), DoorChromeRenderer::new);
     }
 
     public static void ding() {

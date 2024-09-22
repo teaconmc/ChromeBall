@@ -1,5 +1,8 @@
 {
   "item.chromeball.chrome": "Chrome Ball",
   "entity.chromeball.chrome": "Chrome Ball",
-  "stat.chromeball.hits_by": "Hits by Chrome Ball"
+  "entity.chromeball.door_chrome": "Door God Chrome Ball",
+  "stat.chromeball.hits_by": "Hits by Chrome Ball",
+  "stat.chromeball.merit": "Merits",
+  "chromeball.hint.merit_plus": "Merits +1"
 }

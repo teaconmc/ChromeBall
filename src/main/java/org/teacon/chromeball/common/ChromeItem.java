@@ -5,11 +5,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SnowballItem;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.teacon.chromeball.common.entity.ChromeLivingEntity;
+import org.teacon.chromeball.common.entity.ChromeProjectileEntity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -30,7 +34,7 @@ public class ChromeItem extends SnowballItem {
                 SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
 
         if (!world.isClientSide()) {
-            var ballEntity = new ChromeEntity(world, player);
+            var ballEntity = new ChromeProjectileEntity(world, player);
             ballEntity.setItem(item);
             ballEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(ballEntity);
@@ -43,5 +47,23 @@ public class ChromeItem extends SnowballItem {
         }
 
         return InteractionResultHolder.success(item);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        var player = context.getPlayer();
+        var level = context.getLevel();
+        if (player != null && player.isShiftKeyDown() && !level.isClientSide()) {
+            var pos = context.getClickedPos().relative(context.getClickedFace());
+            var entity = new ChromeLivingEntity(ChromeBallRegistry.DOOR_CHROME_ENTITY_TYPE.get(), level);
+            entity.setPos(pos.getX(), pos.getY(), pos.getZ());
+            level.addFreshEntity(entity);
+
+            if (!player.isCreative()) {
+                context.getItemInHand().shrink(1);
+            }
+            return InteractionResult.SUCCESS;
+        }
+        return super.useOn(context);
     }
 }

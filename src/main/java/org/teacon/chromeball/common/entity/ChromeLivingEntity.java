@@ -20,6 +20,7 @@ public class ChromeLivingEntity extends LivingEntity {
 
     public ChromeLivingEntity(EntityType<? extends ChromeLivingEntity> entityType, Level level) {
         super(entityType, level);
+        setInvulnerable(true);
     }
 
     @Override
@@ -62,6 +63,7 @@ public class ChromeLivingEntity extends LivingEntity {
     @Override
     public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
         if (getClientClicked() == 0) {
+            // Click cooldown for protecting 4z's head.
             clientClicked = 20;
             if (!level().isClientSide()) {
                 player.awardStat(ChromeBallRegistry.MERIT_STAT.get());

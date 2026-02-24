@@ -1,6 +1,7 @@
 package org.teacon.chromeball.client;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.mojang.logging.annotations.FieldsAreNonnullByDefault;
+import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -10,6 +11,7 @@ import org.teacon.chromeball.common.ChromeBallRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class ClientRenderer {

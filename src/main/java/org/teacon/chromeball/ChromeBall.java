@@ -1,6 +1,7 @@
 package org.teacon.chromeball;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.mojang.logging.annotations.FieldsAreNonnullByDefault;
+import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -15,10 +16,11 @@ import org.teacon.chromeball.network.DingPack;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @Mod(ChromeBall.MOD_ID)
+@FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class ChromeBall {
-    public static final String MOD_ID = "chromeball";
+    public static final String MOD_ID = "chrome" + "ball";
     public static final Pair<Config, ModConfigSpec> CONFIG = new ModConfigSpec.Builder().configure(Config::new);
 
     public ChromeBall(IEventBus modBus, ModContainer container, Dist dist) {
@@ -26,7 +28,7 @@ public class ChromeBall {
         container.registerConfig(ModConfig.Type.SERVER, CONFIG.getRight(), MOD_ID + ".toml");
         // register common event listeners
         ChromeBallRegistry.ITEMS.register(modBus);
-        ChromeBallRegistry.ENTITIES.register(modBus);
+        ChromeBallRegistry.ENTITY_TYPES.register(modBus);
         ChromeBallRegistry.CUSTOM_STATS.register(modBus);
         modBus.addListener(DingPack::registerMessage);
         modBus.addListener(ChromeBallRegistry::registerCreativeTabs);
@@ -36,8 +38,6 @@ public class ChromeBall {
         }
     }
 
-    @MethodsReturnNonnullByDefault
-    @ParametersAreNonnullByDefault
     public record Config(ModConfigSpec.DoubleValue rate) {
         public Config(ModConfigSpec.Builder builder) {
             this(builder.defineInRange("recovery_rate", 0.3D, 0D, 1D));

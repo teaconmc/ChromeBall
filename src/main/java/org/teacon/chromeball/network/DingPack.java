@@ -1,6 +1,7 @@
 package org.teacon.chromeball.network;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.mojang.logging.annotations.FieldsAreNonnullByDefault;
+import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -11,8 +12,9 @@ import org.teacon.chromeball.client.ClientRenderer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
+import static net.minecraft.resources.Identifier.fromNamespaceAndPath;
 
+@FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public enum DingPack implements CustomPacketPayload, IPayloadHandler<DingPack> {

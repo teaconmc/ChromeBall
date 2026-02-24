@@ -28,7 +28,7 @@ abstract class TeaConDumpPathToGitHub extends DefaultTask {
             outputFile << newLine << "artifact_name=${theFile.getName()}"
             outputFile << newLine << "artifact_publish_name=${publishName.get()}"
             outputFile << newLine << "artifact_path=${theFile.absolutePath}"
-            outputFile << newLine << "artifact_git_tag=MC${minecraftVersion.get()}-${modVersion.get()}"
+            outputFile << newLine << "artifact_git_tag=MC${minecraftVersion.get().split("\\.")[0..1].join(".")}-${modVersion.get()}"
         }
     }
 }

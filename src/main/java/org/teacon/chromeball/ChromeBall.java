@@ -8,6 +8,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.commons.lang3.tuple.Pair;
 import org.teacon.chromeball.client.ClientRenderer;
 import org.teacon.chromeball.common.ChromeBallRegistry;
@@ -32,6 +33,7 @@ public class ChromeBall {
         ChromeBallRegistry.CUSTOM_STATS.register(modBus);
         modBus.addListener(DingPack::registerMessage);
         modBus.addListener(ChromeBallRegistry::registerCreativeTabs);
+        NeoForge.EVENT_BUS.addListener(ChromeBallRegistry::onProjectileImpact);
         // register client listeners
         if (dist.isClient()) {
             modBus.addListener(ClientRenderer::registerRenderer);

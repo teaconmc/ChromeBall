@@ -4,7 +4,6 @@ import com.mojang.logging.annotations.FieldsAreNonnullByDefault;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,11 +12,8 @@ import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableIt
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.teacon.chromeball.ChromeBall;
-import org.teacon.chromeball.network.DingPack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -47,14 +43,6 @@ public class ChromeEntity extends ThrowableItemProjectile {
 
     @Override
     protected void onHit(HitResult result) {
-        if (result.getType() == HitResult.Type.ENTITY) {
-            var entity = ((EntityHitResult) result).getEntity();
-            if (entity instanceof ServerPlayer player) {
-                PacketDistributor.sendToPlayer(player, DingPack.INSTANCE);
-                player.awardStat(ChromeBallRegistry.HITS_BY_STAT.get());
-            }
-        }
-
         var world = this.level();
         if (!world.isClientSide()) {
             world.broadcastEntityEvent(this, EntityEvent.DEATH);
